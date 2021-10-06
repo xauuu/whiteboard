@@ -1,0 +1,124 @@
+.footer-item {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  background-color: #595a5c;
+  color: #fff;
+  z-index: 1;
+}
+
+.footer-item .left-item .icon-block .time-con {
+  display: flex;
+}
+
+.footer-item .left-item .icon-block .time {
+  /* width: 60px; */
+  letter-spacing: 0.00625em;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  align-items: center;
+  color: inherit;
+  justify-content: center;
+  margin: 0 12px 0 6px;
+}
+
+.footer-item .left-item .icon-block .separator {
+  background-color: #dadce0;
+  height: 16px;
+  width: 1px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 4px 0;
+}
+
+.footer-item .left-item .icon-block .roomid {
+  margin: 0 6px 0 12px;
+  align-items: center;
+  display: flex;
+  letter-spacing: 0.00625em;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  color: inherit;
+}
+.footer-item .left-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 350px;
+}
+.footer-item .left-item .icon-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 20px;
+}
+.footer-item .left-item .icon {
+  margin-left: 10px;
+  font-size: 20px;
+}
+/* .footer-item .left-item:hover {
+  cursor: pointer;
+  background: #eee;
+} */
+.center-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.center-item .icon-block {
+  background: #ea4335;
+  border: none;
+  border-radius: 100px;
+  height: 40px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.center-item .icon-block:hover {
+  cursor: pointer;
+  background-color: #eb5b4f;
+}
+
+.center-item .icon {
+  color: #555;
+  font-size: 20px;
+}
+.center-item .icon:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px #ddd;
+}
+.right-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 350px;
+}
+.right-item .icon-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 146px;
+}
+.right-item .icon {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.right-item .title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}

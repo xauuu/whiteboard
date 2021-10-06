@@ -1,0 +1,76 @@
+.whiteboard-cont {
+  margin: 0 auto;
+  overflow: hidden;
+  width: 70%;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: top .35s cubic-bezier(0.4,0,0.2,1),left .35s cubic-bezier(0.4,0,0.2,1),right .35s cubic-bezier(0.4,0,0.2,1),bottom .35s cubic-bezier(0.4,0,0.2,1),width .35s cubic-bezier(0.4,0,0.2,1),height .35s cubic-bezier(0.4,0,0.2,1),background .35s cubic-bezier(0.4,0,0.2,1);
+  border: ridge 2px gray;
+  z-index: 2;
+  position: absolute;
+  inset: 20px 0 90px;
+}
+
+
+.whiteboard-cont--expanded {
+  inset: 20px 320px 90px 20px;
+}
+
+canvas {
+  background-color: white;
+}
+
+.color1a1110{
+  cursor: url("./img/black.png"), auto;
+}
+
+.colore32636{
+  cursor: url("./img/red.png"), auto;
+}
+
+.colorffdf00{
+  cursor: url("./img/yellow.png"), auto;
+}
+
+.colore0bda51{
+  cursor: url("./img/orange.png"), auto;
+}
+
+.colorbf00ff{
+  cursor: url("./img/purple.png"), auto;
+}
+
+.color0bda51{
+  cursor: url("./img/green.png"), auto;
+}
+
+.color0892d0{
+  cursor: url("./img/blue.png"), auto;
+}
+
+.colorff66cc{
+  cursor: url("./img/pink.png"), auto;
+}
+
+.colorcd7f32{
+  cursor: url("./img/brown.png"), auto;
+}
+
+.colorb2beb5{
+  cursor: url("./img/grey.png"), auto;
+}
+
+.eraser {
+  cursor: url("./img/eraser.png"), auto;
+}
+
+.rectangle, .triangle {
+  cursor: crosshair;
+}
+
+.text {
+  cursor: text;
+}

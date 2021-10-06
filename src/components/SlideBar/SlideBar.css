@@ -1,0 +1,22 @@
+.sidebar {
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  bottom: 90px;
+  right: 0;
+  border: solid 1px thistle;
+  transform: translateX(calc( 330px + 16px ));
+  transition: transform .3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 10;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.sidebar--expanded {
+  transform: translateX(0);
+}
+
+
