@@ -14,6 +14,7 @@ function TransitionUp(props) {
 
 function Room(props) {
     const roomID = props.match.params.roomID;
+    
     const userName = props.location.state.name;
     const [expanded, setExpanded] = useState(false);
     const [chat, setChat] = useState(false);

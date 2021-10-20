@@ -14,7 +14,7 @@ const WhiteBoard = ({ expanded, socket }) => {
     const [canvas, setCanvas] = useState({ width: 0, height: 0 });
     const [positionp, setPositionp] = useState({ x: 0, y: 0 });
     const [start, setStart] = useState({ x: 0, y: 0 });
-    const [color, setColor] = useState("#000000");
+    const [color, setColor] = useState("#1a1110");
     const [tool, setTool] = useState("pen");
     const [file, setFile] = useState("");
     const [textX, setTextX] = useState(0);
