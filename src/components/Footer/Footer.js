@@ -24,6 +24,7 @@ function Footer({ roomID, expanded, setExpanded, chat, setChat, people, setPeopl
     const classes = useStyles();
 
     useEffect(() => {
+        setTime(moment().format('H:mm'))
         let secTimer = setInterval(() => {
             setTime(moment().format('H:mm'))
         }, 1000)

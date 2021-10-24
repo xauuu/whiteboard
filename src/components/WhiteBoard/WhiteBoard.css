@@ -11,12 +11,12 @@
   border: ridge 2px gray;
   z-index: 2;
   position: absolute;
-  inset: 20px 0 90px;
+  inset: 70px 0 80px;
 }
 
 
 .whiteboard-cont--expanded {
-  inset: 20px 320px 90px 20px;
+  inset: 70px 320px 80px 20px;
 }
 
 canvas {
@@ -35,7 +35,7 @@ canvas {
   cursor: url("./img/yellow.png"), auto;
 }
 
-.colore0bda51{
+.colorff9f00{
   cursor: url("./img/orange.png"), auto;
 }
 

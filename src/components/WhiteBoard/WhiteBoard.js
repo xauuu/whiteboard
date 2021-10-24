@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
 import "./WhiteBoard.css";
 import Tool from "../Control/Tool";
 import Color from "../Control/Color";
+import Attribute from "../Control/Attribute";
 
 const WhiteBoard = ({ expanded, socket }) => {
     const canvasRef = useRef(null);
@@ -16,6 +15,8 @@ const WhiteBoard = ({ expanded, socket }) => {
     const [start, setStart] = useState({ x: 0, y: 0 });
     const [color, setColor] = useState("#1a1110");
     const [tool, setTool] = useState("pen");
+    const [attribute, setAttribute] = useState('stroke');
+    const [size, setSize] = useState(5)
     const [file, setFile] = useState("");
     const [textX, setTextX] = useState(0);
     const [textY, setTextY] = useState(0);
@@ -87,6 +88,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         var ctx = canvas.getContext("2d");
         if (tool === "clear") {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setTool('pen');
         } else {
         }
         var img = canvas.toDataURL();
@@ -136,7 +138,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         };
     }, [textX, textY]);
 
-    
+
     let timer;
     useEffect(() => {
         return () => clearTimeout(timer);
@@ -161,6 +163,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         ctx.beginPath();
         ctx.moveTo(position.x, position.y);
         ctx.lineTo(positionp.x, positionp.y);
+        ctx.strokeStyle = color;
         ctx.stroke();
     }
 
@@ -179,7 +182,7 @@ const WhiteBoard = ({ expanded, socket }) => {
             start.x - position.x,
             start.y - position.y
         );
-        ctx.stroke();
+        // ctx.stroke();
     }
 
     function drawTriangle(position) {
@@ -206,7 +209,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         }
 
         ctx.closePath();
-        ctx.stroke();
+        // ctx.stroke();
     }
 
     function drawCircle(position) {
@@ -215,7 +218,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         );
         ctx.beginPath();
         ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
-        ctx.stroke();
+        // ctx.stroke();
     }
 
     function draw(position) {
@@ -236,11 +239,24 @@ const WhiteBoard = ({ expanded, socket }) => {
                 drawCircle(position);
                 break;
             case "eraser":
-                ctx.lineWidth = 15;
-                ctx.strokeStyle = "#ffffff";
                 drawPen(position);
                 break;
             default:
+        }
+    }
+
+    function strokeOrFill(position) {
+        if (attribute === "stroke") {
+            draw(position);
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        } else {
+            draw(position);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+        if (tool === 'eraser') {
+            ctx.strokeStyle = "#ffffff";
         }
     }
 
@@ -257,9 +273,8 @@ const WhiteBoard = ({ expanded, socket }) => {
             paste();
         }
         var position = getCanvasCoordinates(event);
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = color;
-        draw(position);
+        ctx.lineWidth = size;
+        strokeOrFill(position);
         setPositionp(position);
     }
 
@@ -270,13 +285,14 @@ const WhiteBoard = ({ expanded, socket }) => {
                 paste();
             }
             position = getCanvasCoordinates(event);
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = color;
-            draw(position);
+            ctx.lineWidth = size;
+            strokeOrFill(position);
         }
         timer = setTimeout(() => {
-            var pngUrl = canvasRef.current.toDataURL();
-            socket.emit("canvas", pngUrl);
+            if (typeof canvasRef.current !== 'undefined') {
+                var pngUrl = canvasRef.current.toDataURL();
+                socket.emit("canvas", pngUrl);
+            }
         }, 1000);
         setPositionp(getCanvasCoordinates(event));
     }
@@ -299,25 +315,25 @@ const WhiteBoard = ({ expanded, socket }) => {
 
     return (
         <React.Fragment>
-            {/* <Box sx={{ height: 150 }}>
-                <Slider
-                    sx={{
-                        '& input[type="range"]': {
-                            WebkitAppearance: 'slider-vertical',
-                        },
-                    }}
-                    size="small"
-                    orientation="vertical"
-                    defaultValue={5}
-                    min={1}
-                    max={20}
-                    aria-label="Temperature"
-                    valueLabelDisplay="auto"
-                    // color="secondary"
-                />
-            </Box> */}
-            <Tool color={color} tool={tool} setTool={setTool} setFile={setFile} />
-            <Color color={color} setColor={setColor} />
+            <Tool
+                color={color}
+                tool={tool}
+                attribute={attribute}
+                setAttribute={setAttribute}
+                setTool={setTool}
+                setFile={setFile}
+                size={size}
+                setSize={setSize} />
+            <Attribute
+                color={color}
+                setColor={setColor}
+                attribute={attribute}
+                setAttribute={setAttribute}
+                size={size}
+                setSize={setSize} />
+            {/* <Color
+                color={color}
+                setColor={setColor} /> */}
             <div
                 className={
                     expanded

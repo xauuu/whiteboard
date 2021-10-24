@@ -45,7 +45,6 @@ function CreateRoom(props) {
     const [name, setName] = useState("");
     const [roomID, setRoomID] = useState("");
     const [time, setTime] = useState("");
-    const [date, setDate] = useState("");
     const [open, setOpen] = useState(false)
 
     function guidGenerator() {
@@ -55,9 +54,9 @@ function CreateRoom(props) {
         return (S(3) + "-" + S(4) + "-" + S(3));
     }
     useEffect(() => {
+        setTime(moment().locale('vi').format('H:mm • ddd, Do MMM'))
         let secTimer = setInterval(() => {
-            setTime(moment().format('H:mm'))
-            setDate(moment().locale('vi').format('ddd, Do MMM'))
+            setTime(moment().locale('vi').format('H:mm • ddd, Do MMM'))
         }, 1000)
 
         return () => clearInterval(secTimer);
@@ -112,7 +111,7 @@ function CreateRoom(props) {
                     <div className="logo"><span>Xau</span> WhiteBoard</div>
                 </Box>
                 <Box display="flex" alignItems="center">
-                    <div className="time">{time} • {date}</div>
+                    <div className="time">{time}</div>
                     <IconButton>
                         <IoLogoFacebook color="royalblue" />
                     </IconButton>
