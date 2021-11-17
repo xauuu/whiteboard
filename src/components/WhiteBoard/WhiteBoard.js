@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import Peer from 'simple-peer';
 import "./WhiteBoard.css";
 import Tool from "../Control/Tool";
-import Color from "../Control/Color";
 import Attribute from "../Control/Attribute";
 
 const WhiteBoard = ({ expanded, socket }) => {
+    const [peers, setPeers] = useState([]);
+    const peersRef = useRef([]);
     const canvasRef = useRef(null);
     const parentRef = useRef(null);
     const [ctx, setCtx] = useState({});
@@ -163,7 +165,7 @@ const WhiteBoard = ({ expanded, socket }) => {
         ctx.beginPath();
         ctx.moveTo(position.x, position.y);
         ctx.lineTo(positionp.x, positionp.y);
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : color;;
         ctx.stroke();
     }
 
@@ -247,17 +249,15 @@ const WhiteBoard = ({ expanded, socket }) => {
 
     function strokeOrFill(position) {
         if (attribute === "stroke") {
-            draw(position);
             ctx.strokeStyle = color;
+            draw(position);
             ctx.stroke();
         } else {
-            draw(position);
             ctx.fillStyle = color;
+            draw(position);
             ctx.fill();
         }
-        if (tool === 'eraser') {
-            ctx.strokeStyle = "#ffffff";
-        }
+        
     }
 
     function handleMouseDown(event) {
@@ -325,6 +325,7 @@ const WhiteBoard = ({ expanded, socket }) => {
                 size={size}
                 setSize={setSize} />
             <Attribute
+                tool={tool}
                 color={color}
                 setColor={setColor}
                 attribute={attribute}
