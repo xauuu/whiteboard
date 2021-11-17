@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Footer.css";
+import Tooltip from '@material-ui/core/Tooltip';
 import { Badge, IconButton } from '@material-ui/core';
 import { MdMessage, MdPeople, MdCallEnd } from "react-icons/md";
 import { makeStyles } from '@material-ui/core/styles';
@@ -79,27 +80,31 @@ function Footer({ roomID, expanded, setExpanded, chat, setChat, people, setPeopl
             </div>
             <div className="right-item">
                 <div className="icon-block">
-                    <IconButton onClick={toggleSidebarPeople}>
-                        <Badge classes={{ badge: classes.customBadgeMn }} badgeContent={count} color="primary">
-                            {people ?
-                                <MdPeople color="#8ab4f8" size={24} /> :
-                                <MdPeople color="white" size={24} />
+                    <Tooltip title="Mọi người" placement="top">
+                        <IconButton onClick={toggleSidebarPeople}>
+                            <Badge classes={{ badge: classes.customBadgeMn }} badgeContent={count} color="primary">
+                                {people ?
+                                    <MdPeople color="#8ab4f8" size={24} /> :
+                                    <MdPeople color="white" size={24} />
+                                }
+                            </Badge>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Trò chuyện" placement="top">
+                        <IconButton onClick={toggleSidebarChat}>
+                            {chat ?
+                                <MdMessage color="#8ab4f8" size={24} /> :
+                                (newM ?
+                                    (<Badge classes={{ badge: classes.customBadge }} variant="dot">
+                                        <MdMessage color="#ffffff" size={24} />
+                                    </Badge>) :
+                                    (<Badge variant="dot">
+                                        <MdMessage color="#ffffff" size={24} />
+                                    </Badge>))
                             }
-                        </Badge>
-                    </IconButton>
-                    <IconButton onClick={toggleSidebarChat}>
-                        {chat ?
-                            <MdMessage color="#8ab4f8" size={24} /> :
-                            (newM ?
-                                (<Badge classes={{ badge: classes.customBadge }} variant="dot">
-                                    <MdMessage color="#ffffff" size={24} />
-                                </Badge>) :
-                                (<Badge variant="dot">
-                                    <MdMessage color="#ffffff" size={24} />
-                                </Badge>))
-                        }
 
-                    </IconButton>
+                        </IconButton>
+                    </Tooltip>
                 </div>
             </div>
         </div>

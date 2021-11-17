@@ -20,11 +20,11 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         border: 0,
         '&:not(:first-of-type)': {
             borderRadius: theme.shape.borderRadius,
-            padding: 11,
+            padding: 8,
         },
         '&:first-of-type': {
             borderRadius: theme.shape.borderRadius,
-            padding: 11,
+            padding: 8,
         },
     },
 }));
@@ -38,8 +38,8 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
     height: 2,
     padding: '15px 0',
     '& .MuiSlider-thumb': {
-        height: 14,
-        width: 14,
+        height: 15,
+        width: 15,
         backgroundColor: '#fff',
         boxShadow: iOSBoxShadow,
         '&:focus, &:hover, &.Mui-active': {
@@ -82,7 +82,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
         },
     },
 }));
-function Attribute({ color, setColor, attribute, setAttribute, size, setSize }) {
+function Attribute({ tool, color, setColor, attribute, setAttribute, size, setSize }) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
 
@@ -113,7 +113,7 @@ function Attribute({ color, setColor, attribute, setAttribute, size, setSize }) 
                     alignItems: 'center',
                 }}
             >
-                <Box width={80} sx={{ mx: 2 }}>
+                <Box width={80} sx={{ ml: 5, mr: 1 }}>
                     <IOSSlider
                         value={size}
                         aria-label="Small"
@@ -124,22 +124,25 @@ function Attribute({ color, setColor, attribute, setAttribute, size, setSize }) 
                     />
                 </Box>
                 <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-                <StyledToggleButtonGroup
-                    value={attribute}
-                    exclusive
-                    onChange={handleAttribute}
-                    aria-label="text alignment"
-                >
+                {(tool === "rectangle" || tool === "triangle" || tool === "circle") &&
+                    <StyledToggleButtonGroup
+                        value={attribute}
+                        exclusive
+                        onChange={handleAttribute}
+                        aria-label="text alignment"
+                    >
 
-                    <ToggleButton value="stroke" aria-label="stroke">
-                        <AiOutlineStar size={20} style={{ color: color }} />
-                    </ToggleButton>
-                    <ToggleButton value="fill" aria-label="fill">
-                        <AiFillStar size={20} style={{ color: color }} />
-                    </ToggleButton>
+                        <ToggleButton value="stroke" aria-label="stroke">
+                            <AiOutlineStar size={20} style={{ color: color }} />
+                        </ToggleButton>
+                        <ToggleButton value="fill" aria-label="fill">
+                            <AiFillStar size={20} style={{ color: color }} />
+                        </ToggleButton>
 
-                </StyledToggleButtonGroup>
-                <IconButton onClick={handleToggle} ref={anchorRef}>
+                    </StyledToggleButtonGroup>
+                }
+
+                <IconButton sx={{ my: 0.3 }} onClick={handleToggle} ref={anchorRef}>
                     <IoMdColorFill style={{ color: color }} />
                 </IconButton>
                 <Popper
@@ -148,7 +151,15 @@ function Attribute({ color, setColor, attribute, setAttribute, size, setSize }) 
                     role={undefined}
                     transition
                     disablePortal
-                    style={{ zIndex: 3 }}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    style={{ zIndex: 11 }}
                 >
                     {({ TransitionProps, placement }) => (
                         <Grow
