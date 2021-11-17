@@ -31,7 +31,7 @@ function Room(props) {
 
     useEffect(() => {
         socket.emit("join_room", roomID, userName);
-        socket.on("message", (msg, sendername, time) => {
+        socket.on("message", (msg) => {
             setmessage(msg);
             setOpen(true);
         });
