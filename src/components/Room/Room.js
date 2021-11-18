@@ -6,7 +6,7 @@ import Footer from '../Footer/Footer';
 import io from 'socket.io-client';
 import { Snackbar, Slide } from '@mui/material';
 
-const socket = io.connect("http://localhost:2001");
+const socket = io.connect("https://whiteboard-xserver.herokuapp.com/");
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
