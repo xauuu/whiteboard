@@ -35,6 +35,7 @@ function Room(props) {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
+        document.title = `WhiteBoard - ${roomID}`
         if ((props.location.state && props.location.state.name) != undefined) {
             setUserName(props.location.state.name);
             setDialog(false);

@@ -123,6 +123,7 @@ function Attribute({ tool, color, setColor, attribute, setAttribute, size, setSi
                         max={20}
                     />
                 </Box>
+                
                 <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
                 {(tool === "rectangle" || tool === "triangle" || tool === "circle") &&
                     <StyledToggleButtonGroup
@@ -151,14 +152,6 @@ function Attribute({ tool, color, setColor, attribute, setAttribute, size, setSi
                     role={undefined}
                     transition
                     disablePortal
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
                     style={{ zIndex: 11 }}
                 >
                     {({ TransitionProps, placement }) => (

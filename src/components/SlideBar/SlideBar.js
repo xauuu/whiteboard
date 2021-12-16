@@ -84,7 +84,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         marginLeft: 20,
         marginRight: 20,
-        padding: "0 !important"
+        padding: "8px 3px",
+        background: "pink",
+        borderRadius: 5,
+        fontSize: 15
     }
 
 }));
@@ -137,7 +140,8 @@ function SlideBar({ expanded, setExpanded, socket, userName, roomID, chat, setCh
                     titleTypographyProps={{ variant: 'h6' }}
                     title="Tin nhắn trong phòng" />
                 <CardContent className={classes.content}>
-                    <Alert className={classes.alert} icon={false} severity="success">Tin nhắn chỉ hiển thị với những người trong phòng</Alert>
+                    <div className={classes.alert}>Tin nhắn chỉ hiển thị với những người ở trong phòng</div>
+                    
                     <div className={classes.chatBody}>
                         <Scrollbars>
                             {messageList.map((m) => {
