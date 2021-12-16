@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider, createTheme } from '@material-ui/core';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const THEME = createTheme({
+  typography: {
+    fontFamily: ['Nunito', 'sans-serif'].join(',')
+  }
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={THEME}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
