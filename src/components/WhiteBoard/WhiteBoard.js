@@ -5,8 +5,6 @@ import Tool from "../Control/Tool";
 import Attribute from "../Control/Attribute";
 
 const WhiteBoard = ({ expanded, socket }) => {
-    const [peers, setPeers] = useState([]);
-    const peersRef = useRef([]);
     const canvasRef = useRef(null);
     const parentRef = useRef(null);
     const [ctx, setCtx] = useState({});
@@ -24,8 +22,6 @@ const WhiteBoard = ({ expanded, socket }) => {
     const [textY, setTextY] = useState(0);
     const [textStart, setTextStart] = useState(0);
     const [imgData, setImgData] = useState("");
-    const [recentWords, setRecentWords] = useState([]);
-    const [undoList, setUndoList] = useState([]);
 
     useEffect(() => {
         let canv = canvasRef.current;
@@ -44,7 +40,6 @@ const WhiteBoard = ({ expanded, socket }) => {
 
         let offset = canv.getBoundingClientRect();
         setCanvasOffset({ x: parseInt(offset.left), y: parseInt(offset.top) });
-        saveState();
     }, [ctx]);
 
     useEffect(() => {
@@ -65,7 +60,7 @@ const WhiteBoard = ({ expanded, socket }) => {
                     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
                 };
                 img.src = image;
-            }, 200);
+            }, 1000);
         });
     }, [socket]);
 
@@ -97,38 +92,18 @@ const WhiteBoard = ({ expanded, socket }) => {
         socket.emit("canvas", img);
     }, [tool]);
 
-    function saveState() {
-        setUndoList((undoList) => [...undoList, canvasRef.current.toDataURL()]);
-    }
 
     useEffect(() => {
-        function undo() {
-            undoList.pop();
-            var img = undoList[undoList.length - 1];
-            var image = new Image();
-            image.onload = function () {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(image, 0, 0);
-            };
-            image.src = img;
-        }
         const onKeyDown = (e) => {
             if (tool === "text") {
                 if (e.keyCode === 13) {
                     setTextX(textStart);
                     setTextY(textY + 20);
-                } else if (e.keyCode === 8) {
-                    undo();
-                    var recentWord = recentWords[recentWords.length - 1];
-                    recentWords.pop();
-                    setTextX(textX - ctx.measureText(recentWord).width);
-                } else {
+                }  else {
                     ctx.font = "22px Arial";
                     ctx.fillStyle = color;
                     ctx.fillText(e.key, textX, textY);
                     setTextX(textX + ctx.measureText(e.key).width);
-                    setRecentWords((recentWords) => [...recentWords, e.key]);
-                    saveState();
                 }
             }
             return false;
@@ -163,16 +138,16 @@ const WhiteBoard = ({ expanded, socket }) => {
 
     function drawPen(position) {
         ctx.beginPath();
-        ctx.moveTo(position.x, position.y);
-        ctx.lineTo(positionp.x, positionp.y);
+        ctx.moveTo(positionp.x, positionp.y);
+        ctx.lineTo(position.x, position.y);
         ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : color;;
         ctx.stroke();
     }
 
     function drawLine(position) {
         ctx.beginPath();
-        ctx.moveTo(position.x, position.y);
-        ctx.lineTo(start.x, start.y);
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(position.x, position.y);
         ctx.stroke();
     }
 
@@ -257,7 +232,7 @@ const WhiteBoard = ({ expanded, socket }) => {
             draw(position);
             ctx.fill();
         }
-        
+
     }
 
     function handleMouseDown(event) {
@@ -275,7 +250,12 @@ const WhiteBoard = ({ expanded, socket }) => {
         var position = getCanvasCoordinates(event);
         ctx.lineWidth = size;
         strokeOrFill(position);
-        setPositionp(position);
+        timer = setTimeout(() => {
+            if (typeof canvasRef.current !== 'undefined') {
+                var pngUrl = canvasRef.current.toDataURL();
+                socket.emit("canvas", pngUrl);
+            }
+        }, 1000);
     }
 
     function handleMouseMove(event) {
@@ -285,15 +265,10 @@ const WhiteBoard = ({ expanded, socket }) => {
                 paste();
             }
             position = getCanvasCoordinates(event);
+            console.log(positionp)
             ctx.lineWidth = size;
             strokeOrFill(position);
         }
-        timer = setTimeout(() => {
-            if (typeof canvasRef.current !== 'undefined') {
-                var pngUrl = canvasRef.current.toDataURL();
-                socket.emit("canvas", pngUrl);
-            }
-        }, 1000);
         setPositionp(getCanvasCoordinates(event));
     }
 
@@ -304,8 +279,6 @@ const WhiteBoard = ({ expanded, socket }) => {
             setTextX(mousex);
             setTextY(mousey);
             setTextStart(mousex);
-
-            setRecentWords([]);
         }
     }
 
@@ -332,9 +305,6 @@ const WhiteBoard = ({ expanded, socket }) => {
                 setAttribute={setAttribute}
                 size={size}
                 setSize={setSize} />
-            {/* <Color
-                color={color}
-                setColor={setColor} /> */}
             <div
                 className={
                     expanded
