@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const socket = io.connect("http://localhost:2001/");
+const socket = io.connect("https://whiteboard-xserver.herokuapp.com/");
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
