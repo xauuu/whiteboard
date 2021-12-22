@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import "./Footer.css";
 import Tooltip from '@material-ui/core/Tooltip';
 import { Badge, IconButton } from '@material-ui/core';
-import { MdMessage, MdPeople, MdCallEnd } from "react-icons/md";
+import { MdMessage, MdPeople, MdCallEnd, MdContentCopy } from "react-icons/md";
+import { BsCheck } from 'react-icons/bs';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 function Footer({ roomID, expanded, setExpanded, chat, setChat, people, setPeople, newM, setNewM, count }) {
 
     const [time, setTime] = useState(new Date().toLocaleTimeString());
-
+    const [copy, setCopy] = useState(false);
     const classes = useStyles();
 
     useEffect(() => {
@@ -55,7 +56,13 @@ function Footer({ roomID, expanded, setExpanded, chat, setChat, people, setPeopl
             setPeople(!people);
             setChat(false);
         }
+    }
 
+    const toggleCopyButton = () => {
+        if (copy === false) {
+            navigator.clipboard.writeText(roomID)
+        }
+        setCopy(true)
     }
 
     return (
@@ -71,6 +78,10 @@ function Footer({ roomID, expanded, setExpanded, chat, setChat, people, setPeopl
                     <div className="roomid">
                         {roomID}
                     </div>
+                    <div className="separator"></div>
+                    <IconButton onClick={toggleCopyButton} disabled={copy}>
+                        {copy ? <BsCheck color='#fff' /> : <MdContentCopy color='#fff' />}
+                    </IconButton>
                 </div>
             </div>
             <div className="center-item">
